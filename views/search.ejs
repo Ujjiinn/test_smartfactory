@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include("./head.ejs") %>
+        <script>
+            function info(farm_no, farm_name){
+                location.href = "/info?_farm_no="+farm_no+"&_farm_name"+farm_name;
+            }
+            function update(){
+                $.getJSON("/update",
+                function(result){
+                    $("#time").text(result.time);
+                    var body;
+                    for(var i=0; i < result.farm.length; i++){
+                        body += `<tr>
+                                    <td>`+result.farm[i].No+`</td>
+                                    <td onclick=info(`+result.farm[i].No+`,"`+result.farm[i].name+`")>`+result.farm[i].name+`</td>
+                                    <td>`+result.farm[i].address+`</td>
+                                    <td>`+result.farm[i].temp+`</td>
+                                    <td>`+result.farm[i].hud+`</td>
+                                    <td>`+result.farm[i].date+`</td>
+                                    <td>`+result.farm[i].time+`</td>
+                                </tr>`
+                    }
+                    $("tbody").html(body)
+                })
+            }
+            setInterval(function(){
+                update()
+            }, 1000)
+            
+            /*
+                result ->
+                {farm : [ { }, { } ],
+                time : moment 보내준 현재 시간}
+
+                result.farm -> [ {name : xxxx}, { }, { } ]
+                xxxx를 출력하는 경우 -> result.farm[0].name
+            */
+        </script>
+    </head>
+    <body>
+        <div class="container" style="margin-top : 20px">
+            <button class="btn btn-danger" onclick="location.href='/logout'">로그아웃</button>
+            
+            <div align="right" id="time"> 
+                <%= time%>
+            </div>
+            <table class="table">
+                <thead>                    <!-- 머리 부분에 들어갈 내용이다 : thead-->
+                    <tr>
+                        <th>농장번호</th>
+                        <th>농장이름</th>
+                        <th>농장주소</th>
+                        <th>온도</th>
+                        <th>습도</th>
+                        <th>날짜</th>
+                        <th>시간</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i < farm.length; i++) {%>
+                        <tr>
+                            <td><%= farm[i].No %></td>
+                            <td><%= farm[i].name %></td>
+                            <td><%= farm[i].address %></td>
+                            <td><%= farm[i].temp %></td>
+                            <td><%= farm[i].hud %></td>
+                            <td><%= farm[i].date %></td>
+                            <td><%= farm[i].time %></td>
+                        </tr>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

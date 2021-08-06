@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include("./head.ejs") %>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <div class="container" style="margin-top : 20px">
+            <% if (info.length > 0) {%>
+            <div>
+                <span>
+                    <%= farm_no %>
+                </span>
+                <span>
+                    <%= name %>
+                </span>
+            </div>
+            <button onclick="window.history.back()" class="btn btn-primary">리스트</button>
+            <button class="btn btn-success" id="graph">그래프</button>
+            <%}%>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>온도</th>
+                        <th>습도</th>
+                        <th>날짜</th>
+                        <th>시간</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(info.length == 0){ %>
+                        <tr>
+                            <td colspan="4">데이터가 없습니다</td>
+                        </tr>
+                    <%}else{ 
+                        for(var i=0; i < info.length; i++){%>
+                            <tr>
+                                <td><%= info[i].temp %></td>
+                                <td><%= info[i].hud %></td>
+                                <td><%= info[i].date %></td>
+                                <td><%= info[i].time %></td>
+                            </tr>
+                        <%}}%>
+                </tbody>
+            </table>
+            <div>
+                <!--
+                    video 태그의 속성
+                        autoplay : 동영상이 자동 재생
+                        controls : 조작 메뉴를 보여준다
+                        loop : 동영상 반복 재생
+                        preload : 페이지가 오픈이 되면 어떤걸 로드를 할지
+                            auto -> 동영상, 베타데이터 전부 로드
+                            metadata -> 메타데이터만 로드
+                            none -> 로드 x
+                -->
+                <video>
+                    <source src="url" type="video/mp4">
+                    text
+                </video>
+            </div>
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+
+            <script>
+                //labels -> 날짜, 시간
+                //data -> 온도, 습도
+                //script태그 안에 render할 때 data 표시
+                
+                const temp = '<%=temp%>'.slice(0,-1)
+                const hud = '<%=hud%>'.slice(0,-1)
+                const time = '<%=time%>'.slice(0,-1);
+                const labels = time.split(",");
+                //split의 역할은 ,를 기분으로 쪼개는 작업 -> 배열을 만들어 준다
+                const data1 = temp.split(",")
+                const data2 = hud.split(",")
+
+                const data = {           // json타입에 
+                    labels: labels,     // 배열
+                    datasets: [
+                    {
+                        label: 'Temperature',
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: data1,
+                    },
+                    {
+                        label: 'Humidity',
+                        backgroundColor: 'rgb(0, 99, 132)',
+                        borderColor: 'rgb(50, 99, 10)',
+                        data: data2,
+                    }]
+                };
+                const config = {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        interaction: {
+                        mode: 'index',
+                        intersect: false,
+                        },
+                        stacked: false,
+                        plugins: {
+                        title: {
+                            display: true,
+                            text: 'Chart.js Line Chart - Multi Axis'
+                        }
+                        },
+                        scales: {
+                            y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            min : 0,
+                            max : 40
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+        
+                                // grid line settings
+                                grid: {
+                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                                },
+                            },
+                        }
+                    },
+                };
+                var myChart = new Chart(
+                  document.getElementById('myChart'),   // byid 라서 id값을 기준으로 가져오겠다.
+                  config
+                );
+
+                var a = false
+                $("#graph").click(function(){
+                    if(!a){
+                        $("canvas").hide();
+                        a=true
+                    }
+                    else{
+                        $("canvas").show();
+                    }
+                    
+                })
+            </script>
+
+        </div>
+    </body>
+</html>

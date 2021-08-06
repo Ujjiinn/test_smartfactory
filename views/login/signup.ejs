@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include("../head.ejs") %>
+    </head>
+    <body>
+        <div class="container" style="margin-top: 20px;">
+            <form action="/login/signup" method="post">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">ID</span>
+                    <input type="text" class="form-control" placeholder="ID" name="_id"> <!--입력값은 _붙-->
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Password</span>
+                    <input type="password" class="form-control" placeholder="Password" name="_password">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Name</span>
+                    <input type="text" class="form-control" placeholder="Name" name="_name">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Phone</span>
+                    <input type="text" class="form-control" placeholder="Phone" name="_phone">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Email</span>
+                    <input type="text" class="form-control" placeholder="Email" name="_email">
+                </div>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="_gender" id="flexRadioDefault1" value="male">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          남
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="_gender" id="flexRadioDefault2" value="female">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          여
+                        </label>
+                    </div>
+                </div>
+                <select class="form-select" name="_linkcode">
+                    <option selected>계정 유형 선택</option>
+                    <option value="0">관리자</option>
+                    <option value="1">1번 농장</option>
+                    <option value="2">2번 농장</option>
+                </select>
+                <br><input type="submit" class=" btn btn-dark" value="Signup">
+            </form>
+        </div>
+    </body>
+</html>

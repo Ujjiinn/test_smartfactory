@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include("./head.ejs") %>
+        <script>
+            function search(){
+                location.href='/search'
+            }
+        </script>
+    </head>
+
+    <body>
+        <div align="center" style="margin-top: 50px;">
+            <button onclick="location.href='/regist'" class="btn btn-dark">등록</button>
+            <button onclick="search()" class="btn btn-secondary">조회</button>
+        </div>
+        
+    </body>
+</html>
